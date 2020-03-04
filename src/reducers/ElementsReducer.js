@@ -6,8 +6,13 @@ const initialState = {
 };
 
 const elementsSuccess = (state, action) => {
-  const oldElements = [...state.elements];
-  const newElements = oldElements.concat(action.data.elements);
+  const {elements: currentElements} = state;
+  const {
+    data: {elements: elementsToAdd},
+  } = action;
+
+  const oldElements = [...currentElements];
+  const newElements = oldElements.concat(elementsToAdd);
   return {
     nextPage: action.data.nextPage,
     elements: newElements,
@@ -16,7 +21,7 @@ const elementsSuccess = (state, action) => {
 
 const resetElements = () => initialState;
 
-const createElementsReducer = (type) => {
+const createElementsReducer = type => {
   const actionHandlers = {
     [`${type}_SUCCESS`]: elementsSuccess,
     [`${type}_RESET`]: resetElements,

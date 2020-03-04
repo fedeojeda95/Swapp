@@ -40,18 +40,16 @@ function ElementsList(props) {
     fullStatusSelector(selectedCategory.apiName, state),
   );
 
-  const {
-    onListMovement,
-    nextPage,
-    currentElements,
-    isFirstLoad,
-  } = usePaginatedElements(selectedCategory, searchText);
+  const {onListMovement, nextPage, currentElements} = usePaginatedElements(
+    selectedCategory,
+    searchText,
+  );
 
   useCleanup(selectedCategory);
 
   const renderHeader = useCallback(
-    () => !isFirstLoad && <SearchBar onTextChanged={setSearchText} />,
-    [isFirstLoad],
+    () => <SearchBar onTextChanged={setSearchText} />,
+    [setSearchText],
   );
 
   return (

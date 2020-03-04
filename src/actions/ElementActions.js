@@ -19,17 +19,26 @@ export const elementReset = (type, elements) => ({
   data: elements,
 });
 
-const createElements = elementsResponse => ({
+const createElements = (elementsResponse, searchText) => ({
   nextPage: elementsResponse.next,
   elements: elementsResponse.results,
+  searchText,
 });
 
-export default (selectedCategory, currentPage = 1) => async (dispatch) => {
-  const { apiName: type } = selectedCategory;
+export default (
+  selectedCategory,
+  searchText,
+  currentPage = 1,
+) => async dispatch => {
+  const {apiName: type} = selectedCategory;
   dispatch(getElementRequest(type));
   try {
-    const elementsResponse = await ElementsController.fetchElements(type, currentPage);
-    const elements = createElements(elementsResponse);
+    const elementsResponse = await ElementsController.fetchElements(
+      type,
+      searchText,
+      currentPage,
+    );
+    const elements = createElements(elementsResponse, searchText);
 
     dispatch(getElementSuccess(type, elements));
   } catch (error) {
